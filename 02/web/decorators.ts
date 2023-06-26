@@ -1,0 +1,182 @@
+import {AuthType} from './auth/auth.types';
+import {DefaultAuthType} from 'app/lib/interfaces/auth.types';
+import {IHandlerData as IHandlerDataApp} from 'app/lib/interfaces/decorators';
+
+
+export interface IHandlerData extends IHandlerDataApp {
+	auth: AuthType | DefaultAuthType;
+	options?: {
+		sendFile?: boolean;
+		deleteAfterSend?: boolean;
+		redirect?: boolean;
+		streamFile?: boolean;
+	};
+	audit: {
+		category: AuditCategory;
+		action: AuditAction;
+	} | null;
+	cacheHeaders?: {
+		eTag?: boolean;
+		xHistoryChangesId?: boolean;
+	};
+}
+
+export function handler (handlerData: IHandlerData) {
+	return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+		Reflect.defineMetadata('handler:data', handlerData, target, propertyKey);
+	};
+}
+
+export enum AuditCategory {
+	OTP                             = 'OTP',
+	AUTH                            = 'AUTH',
+	FLOW                            = 'FLOW',
+	BONUS                           = 'BONUS',
+	CONTACT                         = 'CONTACT',
+	CONTACT_CARD                    = 'CONTACT_CARD',
+	PHONEBOOK_CONTACT               = 'PHONEBOOK_CONTACT',
+	DELIVERY                        = 'DELIVERY',
+	FILE                            = 'FILE',
+	HISTORY                         = 'HISTORY',
+	LOG                             = 'LOG',
+	REPORT                          = 'REPORT',
+	REQUEST                         = 'REQUEST',
+	STATIC_DATA                     = 'STATIC_DATA',
+	MESSAGE                         = 'MESSAGE',
+	PROFILE                         = 'PROFILE',
+	CARD                            = 'CARD',
+	PAYMENT                         = 'PAYMENT',
+	OPERATION                       = 'OPERATION',
+	INSTALLATION                    = 'INSTALLATION',
+	COUNTERPARTY                    = 'COUNTERPARTY',
+	ACCOUNT                         = 'ACCOUNT',
+	PASSWORD                        = 'PASSWORD',
+	SETTINGS                        = 'SETTINGS',
+	USERNAME                        = 'USERNAME',
+	PHOTO                           = 'PHOTO',
+	EMAIL                           = 'EMAIL',
+	WALLET                          = 'WALLET',
+	BILLING                         = 'BILLING',
+	APP_RATE                        = 'APP_RATE',
+	IDENTIFICATION                  = 'IDENTIFICATION',
+	DETECTION                       = 'DETECTION',
+	PHONE                           = 'PHONE',
+	CURRENCY_RATES                  = 'CURRENCY_RATES',
+	BUDGET                          = 'BUDGET',
+	ACHIEVEMENT                     = 'ACHIEVEMENT',
+	APPLICATION                     = 'APPLICATION',
+}
+
+export enum AuditAction {
+	verify                          = 'verify',
+	login                           = 'login',
+	logout                          = 'logout',
+	get                             = 'get',
+	getList                         = 'get list',
+	create                          = 'create',
+	revertFlow                      = 'revert flow',
+	modify                          = 'modify',
+	delete                          = 'delete',
+	uploadFiles                     = 'upload files',
+	updateForm                      = 'update form',
+	createDeliveryOrder             = 'create delivery order',
+	createFormAndDeliveryOrder      = 'create form and delivery order',
+	modifyAddress                   = 'modify address',
+	complete                        = 'complete',
+	checkCompleteness               = 'check completeness',
+	getApplicationsList             = 'get applications list',
+	getCounterpartyInfo             = 'get counterparty info',
+	getAccountRequisites            = 'get account requisites',
+	getCounterpartyDocuments        = 'get counterparty documents',
+	getLinkForReferrals             = 'get link for referrals',
+	redirectToRefferalsLink         = 'redirect to refferals link',
+	getRefferalsStats               = 'get refferals stats',
+	getCashbackBalance              = 'get cashback balance',
+	getCashbackEarnings             = 'get cashback earnings',
+	getCashbackWithdrawalDetails    = 'get cashback withdrawal details',
+	getCashbackPercentages          = 'get cashback percentages',
+	getCashbackEarningsByMonths     = 'get cashback earnings by months',
+	getCashbackEarningsByCategories = 'get cashback earnings by categories',
+	getCashbackMemberStatus         = 'get cashback member status',
+	createRedirectLink              = 'create redirect link',
+	createFirstCardByQR             = 'create first card by QR',
+	createReissueCardByQR           = 'create reissue card by QR',
+	getListOfCards                  = 'get list of cards',
+	rename                          = 'rename',
+	getCardData                     = 'get card data',
+	getCardCVV                      = 'get card CVV',
+	modifyCardToken                 = 'modify card token',
+	getActiveCard                   = 'get active card',
+	sync                            = 'sync',
+	getListOfShippers               = 'get list of shippers',
+	getListOfWarehouses             = 'get list of warehouses',
+	getListOfPatterns               = 'get list of patterns',
+	getListOfAtms                   = 'get list of atms',
+	getAtm                          = 'get atm',
+	getWarehouse                    = 'get warehouse',
+	getListOfHistoryFilters         = 'get list of history filters',
+	getListOfHistoryItems           = 'get list of history items',
+	getListOfConditionStates        = 'get list of condition states',
+	getListOfSpecialOperations      = 'get list of special operations',
+	getKey                          = 'get key',
+	getOperation                    = 'get operation',
+	getReceipt                      = 'get receipt',
+	approveOperation                = 'approve operation',
+	declineOperation                = 'decline operation',
+	setMerchantName                 = 'set merchant name',
+	getCommission                   = 'get commission',
+	confirm                         = 'confirm',
+	getAuthInfo                     = 'get auth info',
+	resendLookup                    = 'resend lookup',
+	getStatus                       = 'get status',
+	sendReceipt                     = 'send receipt',
+	cancel                          = 'cancel',
+	getLastCards                    = 'get last cards',
+	setPIN                          = 'set PIN',
+	temporaryBlockCard              = 'temporary block card',
+	unblockCard                     = 'unblock card',
+	setInternetLimit                = 'set internet limit',
+	withdrawalCashback              = 'withdrawal cashback',
+	activateCardWithPIN             = 'activate card with PIN',
+	getListOfTemplates              = 'get list of templates',
+	getGeneral                      = 'get general',
+	getListOfStyles                 = 'get list of styles',
+	getListOfIcons                  = 'get list of icons',
+	createSession                   = 'create session',
+	getSession                      = 'get session',
+	createInstallation              = 'create installation',
+	deleteInstallation              = 'delete installation',
+	send                            = 'send',
+	restore                         = 'restore',
+	pingPhoneAuth                   = 'ping phone auth',
+	getPayment                      = 'get payment',
+	verifyCard                      = 'verify card',
+	modifyCard                      = 'modify card',
+	deleteCard                      = 'delete card',
+	getListOfCategories             = 'get list of categories',
+	getListOfServices               = 'get list of services',
+	getMobileOperatorByPhone        = 'get mobile operator by phone',
+	getService                      = 'get service',
+	getLastBillingPayments          = 'get last billing payments',
+	createBill                      = 'create bill',
+	getSepComissionAndLimitsInfo    = 'get sep comission and limits info',
+	prepareProvisioningData         = 'prepare provisioning data',
+	getListOfVerifications          = 'get list of verifications',
+	getCardReissueCost              = 'get card reissue cost',
+	getListForeignCurrencies        = 'get list foreign currencies',
+	createAndComplete               = 'create and complete',
+	getCardRefillInvoiceLink        = 'get card refill invoice link',
+	changeMobilePhone               = 'change mobile phone',
+	selectProduct                   = 'select product',
+	selectDocument                  = 'select document',
+	attachCard                      = 'attachCard',
+	updateFlow                      = 'update flow',
+	setBudgetLimit                  = 'set budget limit',
+	setBudgetStatus                 = 'set budget status',
+	getListOfOperations             = 'get list of operations',
+	getAnalyticData                 = 'get analytic data',
+	getAnalyticExpenses             = 'get analytic expenses',
+	getAnalyticIncomes              = 'get analytic incomes',
+	getSuggestions                  = 'get suggestions',
+	markLevelAsRead                 = 'mark level as read'
+}

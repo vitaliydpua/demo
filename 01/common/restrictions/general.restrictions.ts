@@ -1,0 +1,6 @@
+export enum EGeneralRestrictions {
+  MIN_SEARCH_DISTANCE = 20,
+  MAX_SEARCH_DISTANCE = 30000,
+  MIN_SEARCH_TEXT_LENGTH = 1,
+  MAX_SEARCH_TEXT_LENGTH = 50,
+}
